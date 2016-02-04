@@ -103,26 +103,7 @@ void rolling_hash(char ** string, int h, int w,  char ** pattern, int r, int c)
 
 int main( ){
     
-    int i, j, H, W, R,C;
-    scanf("%d", &H);
-    scanf("%d", &W);
     
-    for (i = 0; i < H ; i++) {
-        for (j = 0; j < W; j++) {
-            scanf("%d", String[i][j]);
-        }
-    }
-    
-    scanf("%d", &R);
-    scanf("%d", &C);
-    
-    for (i = 0; i < R ; i++) {
-        for (j = 0; j < C; j++) {
-            scanf("%d", Pattern[i][j]);
-        }
-    }
-    
-    rolling_hash(String, strlen(String), strlen(String[0]) Pattern, strlen(Pattern), strlen(Pattern[0]));
    
     
     return 0;

@@ -10,26 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProgrammingContest_CPP/main.cpp"
-            timestampString = "475813718.733574"
+            timestampString = "476275951.531725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32">
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "main()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProgrammingContest_CPP/main.cpp"
-            timestampString = "475813725.403291"
+            timestampString = "476275602.907622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "solution(vector&lt;int&gt; &amp;A)"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "LCS(int n)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
