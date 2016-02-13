@@ -121,8 +121,8 @@ int ccw(Point p0, Point p1, Point p2){
 //線分S1(p1p2)と線分s2(p2p3)の交差判定を行う
 bool intersect(Point p1, Point p2, Point p3, Point p4){
     return  ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
-    &&
-    ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0;
+            &&
+            ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0;
 }
 bool intersect(Segment s1, Segment s2){
     return intersect(s1.p1, s1.p2, s2.p1, s2.p1);
@@ -170,35 +170,4 @@ pair<Point, Point> getCrossPoints(Circle c1, Circle c2){
     double a = acos((c1.r * c1.r + d * d - c2.r * c2.r) / (2 * c1.r * d) );
     double t = atan2(v.y, v.x);
     return make_pair(c1.c + polar(c1.r, t+a), c1.c + polar(c1.r, t-a));
-}
-
-int main(){
-    
-    int n;
-    Vector a, b;
-    bool convex_flag = true;
-    
-    cin >> n;
-    
-    Vector *q = new Vector[n];
-    
-    for (int i = 0; i < n; i++) {
-        cin >> q[i].x;
-        cin >> q[i].y;
-    }
-    
-    for (int i = 0; i < n; i++) {
-        a = q[(i+1)%n] - q[i];
-        b = q[(i+2)%n] - q[i];
-        
-        if (cross(a, b) < 0) {
-            convex_flag = false;
-            break;
-        }
-    }
-    
-    if(convex_flag) printf("1\n");
-    else            printf("0\n");
-
-    return 0;
 }

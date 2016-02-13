@@ -36,8 +36,7 @@ public:
 typedef Point Vector;                               //ベクトル
 typedef struct Segment{Point p1, p2;}Segment;       //線分
 typedef Segment Line;                               //直線
-typedef struct Circle{Point c; double r;}Circle;    //円
-typedef vector<Point> Polygon;                      //多角形
+
 //ベクトルaのノルム
 double norm(Vector a){
     return a.x * a.x + a.y * a.y;
@@ -55,36 +54,6 @@ double dot(Vector a, Vector b){
 double cross(Vector a, Vector b){
     return a.x * b.y - a.y * b.x;
 }
-
-//ベクトルaとbの直行判定
-//aとbが直行の場合は、内績が0になる
-bool isOrthogonal(Vector a, Vector b){
-    return equals(dot(a,b), 0.0);
-}
-
-//ベクトルaとbの平行判定
-//aとbが直行の場合は、外積が0になる
-bool isParallel(Vector a , Vector b){
-    return equals(cross(a,b), 0.0);
-}
-
-//線分s(p1p2)に対する点pの射影
-Point project(Segment s, Point p){
-    Vector base = s.p2 - s.p1;
-    double r = dot(p - s.p1, base) / norm(base);
-    return s.p1 + base * r;
-}
-
-//線分s(p1p2)を対称軸とした点pの対象点
-Point reflect(Segment s, Point p){
-    return p + (project(s, p) - p) * 2.0;
-}
-
-//点a,点b間の距離
-double getDistance(Point a, Point b){
-    return absolute(a - b);
-}
-
 //直線sと点pの距離
 double getDistanceLP(Line l, Point p){
     return abs(cross(l.p2 - l.p1, p - l.p1) / absolute(l.p2 - l.p1));
@@ -121,11 +90,11 @@ int ccw(Point p0, Point p1, Point p2){
 //線分S1(p1p2)と線分s2(p2p3)の交差判定を行う
 bool intersect(Point p1, Point p2, Point p3, Point p4){
     return  ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
-    &&
-    ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0;
+            &&
+            ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0;
 }
 bool intersect(Segment s1, Segment s2){
-    return intersect(s1.p1, s1.p2, s2.p1, s2.p1);
+    return intersect(s1.p1, s1.p2, s2.p1, s2.p2);
 }
 
 //線分s1と線分s2の距離
@@ -142,63 +111,29 @@ double getDistance(Segment s1, Segment s2){
                );
 }
 
-//線分s1と線分s2の交点を求める
-Point getCrossPoint(Segment s1, Segment s2){
-    Vector base = s2.p2 - s2.p1;
-    double d1 = abs(cross(base, s1.p1 - s2.p1));
-    double d2 = abs(cross(base, s1.p2 - s2.p1));
-    double t = d1 / (d1 + d2);
-    return s1.p1 + (s1.p2 - s1.p1) * t;
-}
-
-//円と線分lの交点を求める
-pair<Point, Point> getCrossPoints(Circle c, Line l){
-    Vector pr = project(l, c.c);
-    Vector e = (l.p2 - l.p1) / absolute(l.p2 - l.p1);
-    double base = sqrt(c.r * c.r - norm(pr - c.c));
-    return make_pair(pr + e * base, pr - e * base);
-}
-
-//円c1と円c2の交点を求める
-Vector polar(double a, double r){
-    //長さa,角度rのpointを求める
-    return Point(cos(r) * a, sin(r) * a);
-}
-pair<Point, Point> getCrossPoints(Circle c1, Circle c2){
-    Vector v = c2.c - c1.c;
-    double d = absolute(v);
-    double a = acos((c1.r * c1.r + d * d - c2.r * c2.r) / (2 * c1.r * d) );
-    double t = atan2(v.y, v.x);
-    return make_pair(c1.c + polar(c1.r, t+a), c1.c + polar(c1.r, t-a));
-}
-
 int main(){
     
-    int n;
-    Vector a, b;
-    bool convex_flag = true;
+    int x0, y0, x1, y1, x2, y2, x3, y3;
     
-    cin >> n;
+    int q;
     
-    Vector *q = new Vector[n];
+    cin >> q;
     
-    for (int i = 0; i < n; i++) {
-        cin >> q[i].x;
-        cin >> q[i].y;
-    }
-    
-    for (int i = 0; i < n; i++) {
-        a = q[(i+1)%n] - q[i];
-        b = q[(i+2)%n] - q[i];
+    for (int i = 0; i < q; i++) {
+        cin >> x0 >> y0 >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
         
-        if (cross(a, b) < 0) {
-            convex_flag = false;
-            break;
-        }
+        Point p0 = Point(x0, y0);
+        Point p1 = Point(x1, y1);
+        Point p2 = Point(x2, y2);
+        Point p3 = Point(x3, y3);
+        
+        Segment s1 = {p0, p1};
+        Segment s2 = {p2, p3};
+        
+        double ans = getDistance(s1, s2);
+        
+        printf("%.8lf\n", ans);
     }
-    
-    if(convex_flag) printf("1\n");
-    else            printf("0\n");
 
     return 0;
 }
