@@ -65,3 +65,17 @@ int fib(int n){
     
     return ans;
 }
+
+
+/*
+ * Return the n-th power of x
+ */
+typedef long long ll;
+const ll mod = 1000000007;
+
+ll power(ll x,ll n){
+    if(!n) return 1;
+    ll res = power(x * x % mod , n / 2);
+    if(n & 1) res = res * x % mod;
+    return res;
+}
