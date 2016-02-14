@@ -71,7 +71,6 @@ void InsertionSort_sub(int array[], int N, int g){
 
 /*
  * The gap which is used for sorting is temporalily decided.
- *
  */
 void ShellSort(int array[], int N){
     
@@ -100,68 +99,64 @@ void ShellSort(int array[], int N){
     return;
 }
 
+/*
+ * merge sort
+ */
+#include <iostream>
+#include <cstdio>
+using namespace std;
 
-#define SENT 1000000000
- 
- 
-int merge(int A[], int first, int mid, int last){
-     
-    int i,j,k, former, latter, *L, *R, cmp;
-    cmp = 0;
-     
-     
-    former = mid - first + 1;
-    latter = last - mid;
-     
-    L = (int*)malloc(sizeof(int) * (former+1));
-    R = (int*)malloc(sizeof(int) * (latter+1));
-     
-    for (i=0; i < former; i++) {
-        L[i] = A[first + i];
-    }
-    L[former] = SENT;
-     
-    for (i=0; i < latter; i++) {
-        R[i] = A[i + mid + 1];
-    }
-    R[latter] = SENT;
-     
-    j=k=0;
-    for (i = first; i < last + 1; i++) {
-        if (L[j] <= R[k]) {
-            A[i] = L[j];
-            j++;
+#define MAX 200000
+#define SENT 2000000000
+typedef long long ll;
+
+int L[MAX / 2 + 2];
+int R[MAX / 2 + 2];
+
+ll merge(int A[], int left, int mid, int right){
+    
+    int i,j,k;
+    ll cmp = 0;
+    int n1 = mid - left;
+    int n2 = right - mid;
+    for (i=0; i < n1; i++) L[i] = A[left + i];
+    for (i=0; i < n2; i++) R[i] = A[mid + i];
+    L[n1] = R[n2] = SENT;
+    
+    i=j=0;
+    for (k = left; k < right; k++) {
+        if (L[i] <= R[j]) {
+            A[k] = L[i++];
+        }else{
+            A[k] = R[j++];
+            cmp += n1 - i; //=mid + j - k - 1
         }
-        else
-        {
-            A[i] = R[k];
-            k++;
-        }
-        cmp += 1;
     }
     return cmp;
-     
 }
- 
-int MergeSort(int A[], int first, int last){
-     
-    int cmp, mid;
-    cmp = 0;
-     
-    if (first < last) {
-        mid = (first + last)/2;
-        cmp += MergeSort(A, first, mid);
-        cmp += MergeSort(A, mid+1, last);
-        cmp += merge(A, first, mid, last);
+/*
+ * *A int type array
+ * leftは配列Aの最初の要素を指す
+ * rightは配列Aの最後の要素+1を指す
+ */
+ll mergeSort(int A[], int left, int right){
+    
+    int mid;
+    ll cmp = 0;
+    
+    if( left + 1 < right ) {
+        mid = (left + right) / 2;
+        cmp += mergeSort(A, left, mid);
+        cmp += mergeSort(A, mid, right);
+        cmp += merge(A, left, mid, right);
     }
-     
     return cmp;
 }
 
 /*
  * *A int type array
  * leftは配列Aの最初の要素を指す
- * rightは配列Aの最初の要素を指す
+ * rightは配列Aの最後の要素を指す
  */
 int partition(int *A, int left, int right){
     
@@ -192,7 +187,7 @@ int partition(int *A, int left, int right){
 /*
  * *A int type array
  * leftは配列Aの最初の要素を指す
- * rightは配列Aの最初の要素を指す
+ * rightは配列Aの最後の要素を指す
  */
 void quicksort(int * A, int left, int right){
     
@@ -203,5 +198,5 @@ void quicksort(int * A, int left, int right){
         quicksort(A, q+1, right);
     }
     
-}
+} 
 
