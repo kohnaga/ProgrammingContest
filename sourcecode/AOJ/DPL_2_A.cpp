@@ -9,20 +9,24 @@ using namespace std;
 int D[MAX_CITY_NUM][MAX_CITY_NUM];          //都市間の距離を格納
 int dp[MAX_CITY_NUM][1 << MAX_CITY_NUM];    //求めた距離をメモ化
 
-/*
- * v:現在地の都市を表す変数
- * b:訪問済みの都市を表すビットフラグ
- * city_num:総都市数を表す変数
- * 外部から最初はtsp(0, 1, N)と呼ぶ
- */
 int tsp(int v, int b, int city_num){
     int rtn = MAX;
     //全ての都市を訪問した
-    if(b == (1 << city_num) - 1) return D[v][0];
-
+    if(b == (1 << city_num) - 1){
+        if (D[v][0] == -1) {
+            return rtn;
+        }else{
+            return D[v][0];
+        }
+    }
+    
     for (int i = 0; i < city_num; i++) {
         //未訪問の都市を訪問する
-        if (!(b & (1 << i)))
+        if (
+            !(b & (1 << i))
+            &&
+            D[v][i] != -1
+            )
         {
             int cost = dp[i][b | (1 << i)] != 0 ? dp[i][b | (1 << i)] : tsp(i, b | (1 << i), city_num);
             dp[i][b | (1 << i)] = cost;
