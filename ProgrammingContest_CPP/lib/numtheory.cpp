@@ -79,3 +79,43 @@ ll power(ll x,ll n){
     if(n & 1) res = res * x % mod;
     return res;
 }
+
+ll minfactor(ll n){
+    ll i;
+    
+    if (isPrime(n)) return n;
+    
+    for (i = 2; i <= n ; i++) {
+        if(n % i == 0) break;
+    }
+    return i;
+}
+
+/*
+ eulerphi
+ 与えられた自然数 n に対してオイラーのφ関数の値 φ(n) を求める。
+ */
+long eulerphi(long n)
+{
+    long phi = n;
+    long m;
+    long m0 = 0;
+    
+    // n が 0 か負数の場合値は定義されないが便宜的に 0 を返す
+    if (n < 1) return(0);
+    
+    // φ(1) = 1 とする
+    if (n == 1) return(1);
+    
+    do {
+        m = minfactor(n);
+        n /= m;
+        
+        if (m0 != m){
+            phi = phi * (m-1) / m;
+            m0 = m;
+        }
+    } while (n != 1);
+    
+    return(phi);
+}
